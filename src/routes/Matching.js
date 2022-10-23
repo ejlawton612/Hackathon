@@ -11,165 +11,109 @@ const Matching = () => {
     const [preferences, setPreferences] = useState([[]]);
     const [listing, setListing] = useState([[]]);
     const [importance, setImportance] = useState([[]]);
-    const [vals, setVals] = useState([])
+
     const list = () => {
-        if (location.state != null & location.state.listing != null) {
+        if (location.state != null && location.state.listing != null) {
+            console.log("listing")
             setListing(location.state.listing);
         }
     }
     const imp = () => {
         if (location.state != null && location.state.importance != null) {
+            console.log("importance")
             setImportance(location.state.listing);
         }
     }
     const pref = () => {
         if (location.state != null && location.state.preferences != null) {
-            setImportance(location.state.preferences);
+            console.log("preferences")
+            setPreferences(location.state.preferences);
         }
     }
-
+var fun = function(x) {
+    console.log(x.length);
+    if (x == null || x.length === 0){
+        return (
+            -1
+        )
+    } else {
+        return x[0];
+    }
+};
+var comp = function Comparison(x) {
+    if (x != null && x.length !== 0) {
+        return (
+            preferences.map((g) => {
+                return (Math.abs(parseInt(x[1]) - parseInt(g[1])) + Math.abs(parseInt(x[2]) - parseInt(g[2])) + Math.abs(parseInt(x[3]) - parseInt(g[3])) + Math.abs(parseInt(x[4])-parseInt(g[4]))+ Math.abs(parseInt(x[5]) - parseInt(g[5])) + Math.abs(parseInt(x[6]) - parseInt(g[6])));
+            })
+        )
+    }
+    return -1;
+}
     useEffect(list, []);
     useEffect(imp, []);
     useEffect(pref, []);
-const Apartments = () => {
-    console.log("here");
-    for (let i = 1; i < listing.length; i++) {
-        let a = 0;
-        for (let b = 1; b < preferences.length; b++) {
-            if (preferences == null || preferences.length === 1) {
-            <div>
-                <p>Add a roommates preferences to begin </p>
-            </div>
-            } else if (listing == null || listing.length === 1) {
-                return (
-                    <div>
-                        <p>Add a listing to begin</p>
-                    </div>
+    const names = listing.map(fun);
+    console.log(names);
+    const score = listing.map(comp);
+    console.log(score);
+    var m = function k(l) {
+        console.log(l)
+        if (l !== -1) {
+        return (
+        <div>
+            {l}
+        </div>
+        )
+        } else {
+            return (
+                <div>
+                </div>
+            )
+        }
+    }
+    var h = function k(l) {
+            console.log(l)
+            if (l !== -1 && !isNaN(l)) {
+            return (
+            <li>
+                {l}
+            </li>
             )
             } else {
-                a += (parseInt(preferences[b][2]) - parseInt(listing[i][2]));
-                console.log(a);
+                return (
+                    <div>
+                    </div>
+                )
             }
         }
-        setVals(vals.concat(a / preferences.length));
+    var me = function sep(o) {
+        if (o !== -1) {
+            return (
+                o.map(h)
+            )
+        }
     }
-    console.log("vals",vals);
-}
-function personalScore(indexL, indexR) {
-    if (preferences == null || preferences.length === 1) {
-        <div>
-            <p>Add a roommates preferences to begin </p>
-        </div>
-    } else if (listing == null || listing.length === 1) {
-        return (
-            <div>
-                <p>Add a listing to begin</p>
-            </div>
-        )
-    }
-
-    let sqFtScore = 0;
-    let sqFtDiff = (parseInt(preferences[indexR][2]) - parseInt(listing[indexL][2])) / parseInt(preferences[indexR][2]);
-    if (sqFtDiff <= 0) {
-        sqFtScore = 100;
-    } else if (sqFtDiff <= 0.2) {
-        sqFtScore = 80;
-    } else if (sqFtDiff <= 0.4) {
-        sqFtScore = 60;
-    } else if (sqFtDiff <= 0.6) {
-        sqFtScore = 40;
-    } else if (sqFtDiff <= 0.8) {
-        sqFtScore = 20;
-    } else {
-        sqFtScore = 0;
-    }
-
-    let bedScore = 0;
-    let numBeds = parseInt(listing[indexL][3]);
-    let prefBeds = parseInt(preferences[indexR][3]);
-    if (numBeds < prefBeds) {
-        bedScore = 0;
-    } else if (numBeds === prefBeds) {
-        bedScore = 100;
-    } else {
-        bedScore = 50;
-    }
-
-    let bathScore = 0;
-    let numBath = parseInt(listing[indexL][4]);
-    let prefBath = parseInt(preferences[indexR][4]);
-    if (numBath === prefBath) {
-        bathScore = 100;
-    } else if (numBath === prefBath + 1 || numBath === prefBath - 1) {
-        bathScore = 66;
-    } else if (numBath === prefBath + 2 || numBath === prefBath -2) {
-        bathScore = 33;
-    } else {
-        bathScore = 0;
-    }
-
-    let costScore = 0;
-    let cost = parseInt(listing[indexL][1]);
-    let prefCost = parseInt(preferences[indexR][1]);
-    if (cost <= prefCost) {
-        costScore = 100;
-    } else if (cost <= prefCost + 50) {
-        costScore = 80;
-    } else if (cost <= prefCost + 100) {
-        costScore = 60;
-    } else if (cost <= prefCost + 150) {
-        costScore = 40;
-    } else if (cost <= prefCost + 200) {
-        costScore = 20;
-    } else {
-        costScore = 0;
-    }
-
-    let locationScore = 0;
-    let distance = listing[indexL][5];
-    let prefDistance = preferences[indexR][5];
-    if (distance <= prefDistance) {
-        locationScore = 100;
-    } else if (distance <= prefDistance + 0.2) {
-        locationScore = 80;
-    } else if (distance <= prefDistance + 0.4) {
-        locationScore = 60;
-    } else if (distance <= prefDistance + 0.6) {
-        locationScore = 40;
-    } else if (distance <= prefDistance + 0.8) {
-        locationScore = 20;
-    } else {
-        locationScore = 0;
-    }
-
-    let safetyScore = 0;
-    let safety = listing[indexL][6];
-    let prefSafety = preferences[indexR][6];
-    if (safety >= prefSafety) {
-        safetyScore = 100;
-    } else if (safety === prefSafety - 1) {
-        safetyScore = 66;
-    } else if (safety === prefSafety - 2) {
-        safetyScore = 33;
-    } else {
-        safetyScore = 0;
-    }
-
-    let myScores = [costScore, sqFtScore, bedScore, bathScore, locationScore, safetyScore];
-    let totalSum = 0;
-    let totalPriority = 0;
-    for (let i = 0; i < importance[indexR].length; i++) {
-        totalSum += parseInt(importance[indexR][i]) * myScores[i];
-        totalPriority += parseInt(importance[indexR][i]);
-    }
-    let finalScore = totalSum / totalPriority;
-    return finalScore;
-
-}
+    const tags = names.map(m);
+    const sc = score.map(me);
     return (
         <div>
             <Navbar state = {location.state}/>
             <ApartmentImage heading='MATCHING.' text='Find your best match.' />
+            <div>
+            <p>The larger the score the greater the difference between preferences and the listing </p>
+            <p>The first Listing coresponds with the first x scores where x is the number of roommates </p>
+            <p>Number of Roommates : {parseInt(preferences.length) - 1}</p>
+            <p>Number of Listings : {parseInt(listing.length) - 1}</p>
+            </div>
+            <div>
+            <p>Listings</p>
+            <p>{tags}</p>
+            </div>
+            <div>
+            <p>Scores</p>
+            <p>{sc}</p>
+            </div>
             <Footer />
         </div>
     )
