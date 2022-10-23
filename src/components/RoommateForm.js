@@ -14,7 +14,6 @@ const RoommateForm = () => {
     const [bath, setBath] = useState("");
     const [loc, setLoc] = useState("");
     const [safety, setSafety] = useState("");
-    const [nameP, setNameP] = useState("");
     const [costP, setCostP] = useState("");
     const [importance, setImportance] = useState([[]]);
     const [sqfP, setSqfP] = useState("");
@@ -22,30 +21,62 @@ const RoommateForm = () => {
     const [bathP, setBathP] = useState("");
     const [locP, setLocP] = useState("");
     const [safetyP, setSafetyP] = useState("");
+    const Options = () => {
+        return (
+            <>
+            <option value ="">Select Importance</option>
+            <option value = "1">Important</option>
+            <option value = "2">Somewhat Important</option>
+            <option value = "3">Neutral</option>
+            <option value = "4">Somewhat Unimportant</option>
+            <option value = "5"> Unimportant</option>
+            </>
+        )
+    }
     const list = () => {
         if (location.state !== null && location.state.preferences !== null) {
             setPreferences(location.state.preferences);
         }
     }
+    const imp = () => {
+        if (location.state !== null && location.state.importance !== null) {
+            setImportance(location.state.importance);
+        }
+    }
     useEffect(list, []);
+    useEffect(imp, []);
     const add = (event) => {
         event.preventDefault();
         console.log(preferences === "");
         console.log("preference array", preferences);
         if (name !== "" && cost !== "" && sqf !== "" && rooms !== "" && bath !== "" && loc !== "" && safety !== "") {
             let temp = [name, cost, sqf, rooms, bath, loc, safety];
-            if (preferences === [[]]) {
-                setPreferences([temp]);
-            } else {
-                setPreferences(preferences.concat([temp]));
+            if (costP !== "" && sqfP !== "" && roomsP !== "" && bathP !== "" && locP !== "" && safetyP !== "") {
+                if (preferences === [[]]) {
+                    setPreferences([temp]);
+                } else {
+                    setPreferences(preferences.concat([temp]));
+                }
+                let t = [costP, sqfP, roomsP, bathP, locP, safetyP];
+                if (importance === [[]]) {
+                    setImportance([t]);
+                } else {
+                    setImportance(importance.concat([t]));
+                }
+                setName("")
+                setCost("")
+                setSafety("")
+                setLoc("")
+                setBath("")
+                setRooms("")
+                setSqf("")
+                setCostP("")
+                setSafetyP("")
+                setLocP("")
+                setBathP("")
+                setRoomsP("")
+                setSqfP("")
             }
-            setName("")
-            setCost("")
-            setSafety("")
-            setLoc("")
-            setBath("")
-            setRooms("")
-            setSqf("")
         }
     }
     const changeName = (event) => {
@@ -77,11 +108,6 @@ const RoommateForm = () => {
     const changeLoc = (event) => {
         if (!isNaN(event.target.value)) {
             setLoc(event.target.value);
-        }
-    }
-    const changeNameP = (event) => {
-        if (!isNaN(event.target.value)) {
-            setNameP(event.target.value);
         }
     }
     const changeCostP = (event) => {
@@ -139,17 +165,29 @@ const RoommateForm = () => {
                 <input value = {loc} onChange = {changeLoc}/>
                 <label>For the following sections rank importance as a number 1 - 5</label>
                 <label>Importance of Number of Bathrooms </label>
-                    <input value = {bathP} onChange = {changeBathP}/>
+                    <select value = {bathP} onChange = {changeBathP}>
+                        <Options />
+                    </select>
                 <label>Importance of Number of Bedrooms </label>
-                    <input value = {roomsP} onChange = {changeRoomsP}/>
+                    <select value = {roomsP} onChange = {changeRoomsP}>
+                        <Options />
+                    </select>
                 <label>Importance of Safety</label>
-                    <input value = {safetyP} onChange = {changeSafetyP}/>
+                    <select value = {safetyP} onChange = {changeSafetyP}>
+                        <Options />
+                    </select>
                 <label>Importance of Cost</label>
-                    <input value = {costP} onChange = {changeCostP}/>
+                    <select value = {costP} onChange = {changeCostP}>
+                    <Options />
+                    </select>
                 <label>Importance of Square Feet</label>
-                    <input value = {sqfP} onChange = {changeSqfP}/>
+                    <select value = {sqfP} onChange = {changeSqfP}>
+                    <Options />
+                    </select>
                 <label>Importance of Location</label>
-                    <input value = {locP} onChange = {changeLocP}/>
+                    <select value = {locP} onChange = {changeLocP}>
+                    <Options />
+                    </select>
                 <button type = "submit" className='btn'>Add</button>
             </form>
             <div>
