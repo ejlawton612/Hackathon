@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react'
 import '../components/FormStyles.css'
 import {Link, useLocation} from "react-router-dom";
 import Select from "react-dropdown-select";
+import Modal from "react-modal";
 const Listing = () => {
     const location = useLocation();
     const [name, setName] = useState("");
@@ -17,6 +18,10 @@ const Listing = () => {
     const [safety, setSafety] = useState("");
     const [importance, setImportance] = useState([[]])
     const [preferences, setPreferences] = useState([[]]);
+    const [open, setOpen] = useState(false);
+    const close = () => {
+        setOpen(false);
+    }
     const list = () => {
         if (location.state != null && location.state.listing != null) {
             setListing(location.state.listing);
@@ -51,6 +56,7 @@ const Listing = () => {
             setBath("")
             setRooms("")
             setSqf("")
+            setOpen(true);
         }
     }
     const changeName = (event) => {
@@ -112,6 +118,12 @@ const Listing = () => {
                 <input value = {loc} onChange = {changeLoc}/>
                 <button type = "submit" className='btn'>Add</button>
             </form>
+            <Modal isOpen ={open} onRequestClose = {close} ariaHideApp = {false}>
+            <div>
+                <p>Your listing was added!</p>
+                <button onClick = {close}>Close</p>
+            </div>
+            </Modal>
         </div>
         <Footer/>
         </div>
