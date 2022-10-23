@@ -26,9 +26,6 @@ const Pricing = () => {
     const [safetyP, setSafetyP] = useState("");
     const [listing, setListing] = useState([[]]);
     const [open, setOpen] = useState(false);
-    const open = () => {
-        setOpen(true);
-    }
     const close = () => {
         setOpen(false);
     }
@@ -91,6 +88,7 @@ const Pricing = () => {
                 setBathP("")
                 setRoomsP("")
                 setSqfP("")
+                setOpen(true);
             }
         }
     }
@@ -209,7 +207,7 @@ const Pricing = () => {
                     </select>
                 <button type = "submit" className='btn'>Add</button>
             </form>
-            <Modal isOpen = {setOpen} onRequestClose = {close} ariaHideApp = {false}>
+            <Modal isOpen = {open} onRequestClose = {close} ariaHideApp = {false}>
             <div>
                 <p>Preference added!</p>
                 <button onClick = {close}>Close</button>
