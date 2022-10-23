@@ -121,7 +121,7 @@ const Listing = () => {
             <Modal isOpen ={open} onRequestClose = {close} ariaHideApp = {false}>
             <div>
                 <p>Your listing was added!</p>
-                <button onClick = {close}>Close</p>
+                <button onClick = {close}>Close</button>
             </div>
             </Modal>
         </div>
