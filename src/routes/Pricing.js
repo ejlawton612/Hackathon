@@ -6,6 +6,7 @@ import {useState, useEffect} from 'react'
 import '../components/FormStyles.css'
 import {Link, useLocation} from "react-router-dom";
 import Select from "react-dropdown-select";
+import Modal from "react-modal";
 const Pricing = () => {
     const location = useLocation();
     const [name, setName] = useState("");
@@ -24,6 +25,13 @@ const Pricing = () => {
     const [locP, setLocP] = useState("");
     const [safetyP, setSafetyP] = useState("");
     const [listing, setListing] = useState([[]]);
+    const [open, setOpen] = useState(false);
+    const open = () => {
+        setOpen(true);
+    }
+    const close = () => {
+        setOpen(false);
+    }
     const Options = () => {
         return (
             <>
@@ -201,6 +209,12 @@ const Pricing = () => {
                     </select>
                 <button type = "submit" className='btn'>Add</button>
             </form>
+            <Modal isOpen = {setOpen} onRequestClose = {close} ariaHideApp = {false}>
+            <div>
+                <p>Preference added!</p>
+                <button onClick = {close}>Close</button>
+            </div>
+            </Modal>
         </div>
     )
 }
